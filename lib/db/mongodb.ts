@@ -1,14 +1,12 @@
 import { MongoClient, MongoClientOptions } from 'mongodb';
 
-const uri: string = process.env.MONGODB_URI || 'mongodb+srv://f90396245_db_user:resturentwebsitenew@cluster0.94frwr3.mongodb.net/?appName=Cluster0';
+// MongoDB connection string with database name
+const uri: string = process.env.MONGODB_URI || 'mongodb+srv://f90396245_db_user:resturentwebsitenew@cluster0.94frwr3.mongodb.net/restaurant?retryWrites=true&w=majority&appName=Cluster0';
 
 const options: MongoClientOptions = {
-  // Add retryWrites for better reliability
+  // Retry writes for better reliability
   retryWrites: true,
   w: 'majority',
-  // SSL/TLS options for MongoDB Atlas
-  tls: true,
-  tlsAllowInvalidCertificates: false,
   // Connection pool options
   maxPoolSize: 10,
   minPoolSize: 5,
