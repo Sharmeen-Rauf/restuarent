@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLocation } from '@/lib/context/LocationContext';
-import { cityMap } from '@/lib/menuData';
+import { getPakistaniCities, getCityAreas } from '@/lib/locationData';
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -10,20 +10,26 @@ interface LocationModalProps {
 }
 
 export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
-  const { currentLocation, orderType, setLocation, setOrderType } = useLocation();
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const { city, area, orderType, setCity, setArea, setOrderType, getDisplayLocation } = useLocation();
+  const [selectedCity, setSelectedCity] = useState<string>(city);
+  const [selectedArea, setSelectedArea] = useState<string>(area);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const pakistaniCities = getPakistaniCities();
+  const cityAreas = getCityAreas(selectedCity);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setSelectedCity(city);
+      setSelectedArea(area);
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, city, area]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -35,13 +41,25 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
+  // Reset area when city changes
+  useEffect(() => {
+    if (selectedCity && selectedCity !== city) {
+      const areas = getCityAreas(selectedCity);
+      if (areas.length > 0) {
+        setSelectedArea(areas[0].name);
+      } else {
+        setSelectedArea('');
+      }
+    }
+  }, [selectedCity, city]);
+
   if (!isOpen) return null;
 
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         () => {
-          alert('Location detected! Please select your city from the list.');
+          alert('Location detected! Please select your city and area from the list.');
         },
         () => {
           alert('Unable to detect location. Please select manually.');
@@ -53,17 +71,25 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
   };
 
   const handleSelectLocation = () => {
-    if (selectedCity && cityMap[selectedCity]) {
-      setLocation(cityMap[selectedCity]);
+    if (selectedCity) {
+      setCity(selectedCity);
+      if (selectedArea) {
+        setArea(selectedArea);
+      }
       onClose();
-      setSelectedCity(null);
       setSearchTerm('');
     }
   };
 
-  const filteredCities = Object.keys(cityMap).filter((city) =>
-    cityMap[city].toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCities = pakistaniCities.filter((city) =>
+    city.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const filteredAreas = cityAreas.filter((area) =>
+    area.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const canSelect = selectedCity && (!cityAreas.length || selectedArea);
 
   return (
     <div
@@ -71,81 +97,116 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl p-10 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
+        className="bg-white rounded-2xl p-8 md:p-10 max-w-5xl w-full max-h-[90vh] overflow-y-auto relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-5">Select your order type</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Select your order type</h2>
         </div>
 
         {/* Order Type Selection */}
         <div className="flex gap-4 mb-8">
           <button
             onClick={() => setOrderType('delivery')}
-            className={`flex-1 py-4 rounded-lg border-2 font-semibold transition-all ${
+            className={`flex-1 py-4 rounded-lg border-2 font-semibold text-base md:text-lg transition-all ${
               orderType === 'delivery'
-                ? 'bg-primary text-white border-primary'
-                : 'bg-white text-gray-900 border-gray-300 hover:border-primary hover:text-primary'
+                ? 'bg-[#FF6B00] text-white border-[#FF6B00]'
+                : 'bg-white text-gray-900 border-gray-300 hover:border-[#FF6B00] hover:text-[#FF6B00]'
             }`}
           >
-            Delivery
+            DELIVERY
           </button>
           <button
             onClick={() => setOrderType('pickup')}
-            className={`flex-1 py-4 rounded-lg border-2 font-semibold transition-all ${
+            className={`flex-1 py-4 rounded-lg border-2 font-semibold text-base md:text-lg transition-all ${
               orderType === 'pickup'
-                ? 'bg-primary text-white border-primary'
-                : 'bg-white text-gray-900 border-gray-300 hover:border-primary hover:text-primary'
+                ? 'bg-[#FF6B00] text-white border-[#FF6B00]'
+                : 'bg-white text-gray-900 border-gray-300 hover:border-[#FF6B00] hover:text-[#FF6B00]'
             }`}
           >
-            Pick-Up
+            PICK-UP
           </button>
         </div>
 
         <div className="mb-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-5">Please select your location</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Please select your location</h2>
         </div>
 
         {/* Use Current Location Button */}
         <button
           onClick={handleUseCurrentLocation}
-          className="w-full py-4 border-2 border-dashed border-gray-300 bg-gray-50 rounded-lg flex items-center justify-center gap-3 font-medium text-gray-900 hover:border-primary hover:bg-primary hover:bg-opacity-10 hover:text-primary transition-all mb-8"
+          className="w-full py-4 border-2 border-dashed border-gray-300 bg-gray-50 rounded-lg flex items-center justify-center gap-3 font-medium text-gray-900 hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:bg-opacity-10 hover:text-[#FF6B00] transition-all mb-8"
         >
           <i className="fas fa-crosshairs text-lg"></i>
           <span>Use Current Location</span>
         </button>
 
         {/* Cities Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-          {filteredCities.map((cityKey) => (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 mb-8">
+          {filteredCities.map((cityItem) => (
             <button
-              key={cityKey}
-              onClick={() => setSelectedCity(cityKey)}
-              className={`flex flex-col items-center gap-3 p-4 border-2 rounded-lg transition-all ${
-                selectedCity === cityKey
-                  ? 'border-primary bg-primary bg-opacity-10'
-                  : 'border-gray-300 bg-white hover:border-primary hover:shadow-md hover:-translate-y-1'
+              key={cityItem.id}
+              onClick={() => {
+                setSelectedCity(cityItem.id);
+                // Reset area when city changes
+                const areas = getCityAreas(cityItem.id);
+                if (areas.length > 0) {
+                  setSelectedArea(areas[0].name);
+                } else {
+                  setSelectedArea('');
+                }
+              }}
+              className={`flex flex-col items-center gap-2 md:gap-3 p-3 md:p-4 border-2 rounded-lg transition-all ${
+                selectedCity === cityItem.id
+                  ? 'border-[#FF6B00] bg-[#FF6B00] bg-opacity-10'
+                  : 'border-gray-300 bg-white hover:border-[#FF6B00] hover:shadow-md hover:-translate-y-1'
               }`}
             >
-              <img
-                src={`https://via.placeholder.com/80x80/FF6B00/FFFFFF?text=${cityMap[cityKey].substring(0, 3).toUpperCase()}`}
-                alt={cityMap[cityKey]}
-                className="w-20 h-20 rounded-full object-cover"
-              />
-              <span className="font-semibold text-gray-900">{cityMap[cityKey]}</span>
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#FF6B00] bg-opacity-20 flex items-center justify-center">
+                <span className="text-[#FF6B00] font-bold text-lg md:text-xl">
+                  {cityItem.name.substring(0, 2).toUpperCase()}
+                </span>
+              </div>
+              <span className="font-semibold text-gray-900 text-sm md:text-base text-center">
+                {cityItem.name}
+              </span>
             </button>
           ))}
         </div>
+
+        {/* Area Dropdown - Only show if city has areas */}
+        {cityAreas.length > 0 && selectedCity && (
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Area in {pakistaniCities.find(c => c.id === selectedCity)?.name}
+            </label>
+            <div className="relative">
+              <select
+                value={selectedArea}
+                onChange={(e) => setSelectedArea(e.target.value)}
+                className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-[#FF6B00] transition-colors appearance-none bg-white cursor-pointer"
+              >
+                <option value="">Select an area</option>
+                {cityAreas.map((areaItem) => (
+                  <option key={areaItem.id} value={areaItem.name}>
+                    {areaItem.name}
+                  </option>
+                ))}
+              </select>
+              <i className="fas fa-chevron-down absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+            </div>
+          </div>
+        )}
 
         {/* Location Search */}
         <div className="relative mb-8">
           <input
             type="text"
-            placeholder="Please select your location"
+            placeholder="Search city or area"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-primary transition-colors"
+            className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-[#FF6B00] transition-colors"
           />
           <i className="fas fa-search absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
         </div>
@@ -154,10 +215,10 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
         <div className="flex justify-end">
           <button
             onClick={handleSelectLocation}
-            disabled={!selectedCity}
-            className={`px-10 py-4 rounded-full font-semibold transition-colors ${
-              selectedCity
-                ? 'bg-primary text-white hover:bg-secondary'
+            disabled={!canSelect}
+            className={`px-8 md:px-10 py-4 rounded-full font-semibold text-base md:text-lg transition-colors ${
+              canSelect
+                ? 'bg-[#FF6B00] text-white hover:bg-[#FF8C42]'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
             }`}
           >
@@ -168,4 +229,3 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
     </div>
   );
 }
-

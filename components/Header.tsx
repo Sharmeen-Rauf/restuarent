@@ -8,9 +8,10 @@ interface HeaderProps {
 }
 
 export default function Header({ onLocationClick }: HeaderProps) {
-  const { currentLocation } = useLocation();
+  const { getDisplayLocation } = useLocation();
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+  const displayLocation = getDisplayLocation();
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -34,7 +35,7 @@ export default function Header({ onLocationClick }: HeaderProps) {
             <i className="fas fa-map-marker-alt text-primary text-xl"></i>
             <div className="flex flex-col text-left">
               <span className="text-xs text-gray-500">Change Location</span>
-              <span className="font-semibold text-gray-900">{currentLocation}</span>
+              <span className="font-semibold text-gray-900">{displayLocation}</span>
             </div>
           </button>
 
