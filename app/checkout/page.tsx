@@ -21,6 +21,7 @@ export default function CheckoutPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
@@ -46,11 +47,21 @@ export default function CheckoutPage() {
     return `Rs. ${price.toFixed(0)}`;
   };
 
+  // Calculate estimated delivery time (60 minutes from now)
+  const getEstimatedDeliveryTime = () => {
+    const now = new Date();
+    const deliveryTime = new Date(now.getTime() + 60 * 60000);
+    return deliveryTime;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
 
     try {
+      const estimatedDelivery = getEstimatedDeliveryTime();
+      
       const orderData = {
         items: cart,
         customerInfo: formData,
@@ -60,6 +71,7 @@ export default function CheckoutPage() {
         deliveryFee,
         grandTotal,
         status: 'pending',
+        estimatedDeliveryTime: estimatedDelivery.toISOString(),
         createdAt: new Date().toISOString(),
       };
 
@@ -71,15 +83,17 @@ export default function CheckoutPage() {
         body: JSON.stringify(orderData),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         clearCart();
-        router.push(`/order-confirmation?orderId=${Date.now()}`);
+        router.push(`/order-confirmation?orderNumber=${data.orderNumber}&orderId=${data.orderId}`);
       } else {
-        alert('Failed to place order. Please try again.');
+        setError(data.error || 'Failed to place order. Please try again.');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      setError('Failed to place order. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -105,6 +119,12 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Order Form */}
@@ -246,6 +266,13 @@ export default function CheckoutPage() {
                 <p className="mb-2">Delivery Location:</p>
                 <p className="font-semibold text-black">{getDisplayLocation()}</p>
               </div>
+
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-xs text-blue-800">
+                  <i className="fas fa-clock mr-2"></i>
+                  Estimated delivery: 60 minutes
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -253,4 +280,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-

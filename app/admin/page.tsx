@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 interface Order {
   _id: string;
   orderId: string;
+  orderNumber?: string;
   items: any[];
   customerInfo: {
     name: string;
@@ -22,6 +23,7 @@ interface Order {
   grandTotal: number;
   status: string;
   createdAt: string;
+  estimatedDeliveryTime?: string;
 }
 
 export default function AdminPanel() {
@@ -137,7 +139,7 @@ export default function AdminPanel() {
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-lg font-bold">Order #{order.orderId}</h3>
+                      <h3 className="text-lg font-bold">Order #{order.orderNumber || order.orderId}</h3>
                       <p className="text-sm text-gray-600">{formatDate(order.createdAt)}</p>
                     </div>
                     <span
