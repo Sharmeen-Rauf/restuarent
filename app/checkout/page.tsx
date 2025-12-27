@@ -89,11 +89,14 @@ export default function CheckoutPage() {
         clearCart();
         router.push(`/order-confirmation?orderNumber=${data.orderNumber}&orderId=${data.orderId}`);
       } else {
-        setError(data.error || 'Failed to place order. Please try again.');
+        // Show user-friendly error message
+        const errorMessage = data.error || 'Failed to place order. Please try again.';
+        setError(errorMessage);
+        console.error('Order placement error:', data);
       }
     } catch (error: any) {
       console.error('Error placing order:', error);
-      setError('Failed to place order. Please check your connection and try again.');
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -122,7 +125,16 @@ export default function CheckoutPage() {
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
-            {error}
+            <div className="flex items-start gap-3">
+              <i className="fas fa-exclamation-circle mt-1"></i>
+              <div>
+                <p className="font-semibold">Order Placement Failed</p>
+                <p className="text-sm mt-1">{error}</p>
+                <p className="text-xs mt-2 text-red-600">
+                  If this problem persists, please contact our support team.
+                </p>
+              </div>
+            </div>
           </div>
         )}
 

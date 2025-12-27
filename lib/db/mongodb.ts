@@ -1,7 +1,22 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, MongoClientOptions } from 'mongodb';
 
 const uri: string = process.env.MONGODB_URI || 'mongodb+srv://f90396245_db_user:resturentwebsitenew@cluster0.94frwr3.mongodb.net/?appName=Cluster0';
-const options = {};
+
+const options: MongoClientOptions = {
+  // Add retryWrites for better reliability
+  retryWrites: true,
+  w: 'majority',
+  // SSL/TLS options for MongoDB Atlas
+  tls: true,
+  tlsAllowInvalidCertificates: false,
+  // Connection pool options
+  maxPoolSize: 10,
+  minPoolSize: 5,
+  // Timeout options
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  connectTimeoutMS: 10000,
+};
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
