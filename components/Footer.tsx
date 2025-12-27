@@ -51,6 +51,16 @@ export default function Footer() {
                   Blog
                 </a>
               </li>
+              <li>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Contact Us
+                </a>
+              </li>
             </ul>
             <div className="mt-6">
               <a 
@@ -79,52 +89,68 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Mobile App Mockup - Center (hidden on small screens) */}
-          <div className="lg:col-span-1 hidden lg:block">
-            <div className="relative">
-              {/* Phone Mockup */}
-              <div className="bg-white rounded-3xl p-2 shadow-2xl transform rotate-6 hover:rotate-0 transition-transform duration-500">
-                <div className="bg-gray-900 rounded-2xl overflow-hidden aspect-[9/16] max-w-[200px] mx-auto">
-                  <div className="h-full bg-gradient-to-b from-gray-800 to-gray-900 p-4">
-                    <div className="text-white text-xs mb-2">MEMORIES</div>
-                    <div className="h-24 bg-red-600 rounded-lg mb-4"></div>
-                    <div className="space-y-2">
-                      <div className="h-16 bg-gray-700 rounded"></div>
-                      <div className="h-16 bg-gray-700 rounded"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Quick Links Section */}
+          <div className="lg:col-span-1">
+            <h3 className="text-lg font-bold mb-6">Quick Links</h3>
+            <ul className="space-y-4">
+              <li>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Menu
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Locations
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Terms & Conditions
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Get The App Section */}
+          {/* Opening Hours Section */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">Get The App!</h3>
-            <p className="text-gray-400 mb-6">
-              App is where the fun is! It's Easy, Fast and Convenient.
-            </p>
-            <div className="space-y-4">
-              <a 
-                href="#" 
-                className="block bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center gap-3 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                <i className="fab fa-apple text-2xl"></i>
-                <div className="text-left">
-                  <div className="text-xs">Download on the</div>
-                  <div className="font-semibold">App Store</div>
-                </div>
-              </a>
-              <a 
-                href="#" 
-                className="block bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center gap-3 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                <i className="fab fa-google-play text-2xl"></i>
-                <div className="text-left">
-                  <div className="text-xs">GET IT ON</div>
-                  <div className="font-semibold">Google Play</div>
-                </div>
-              </a>
+            <h3 className="text-lg font-bold mb-6">Opening Hours</h3>
+            <div className="space-y-3 text-gray-400">
+              <div className="flex justify-between">
+                <span>Monday - Friday</span>
+                <span className="text-white">11:00 AM - 11:00 PM</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Saturday</span>
+                <span className="text-white">11:00 AM - 12:00 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Sunday</span>
+                <span className="text-white">12:00 PM - 11:00 PM</span>
+              </div>
+            </div>
+            <div className="mt-6">
+              <p className="text-gray-400 text-sm mb-2">Follow us for updates</p>
+              <div className="flex gap-3">
+                <a 
+                  href="#" 
+                  className="w-10 h-10 bg-gray-800 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110"
+                  aria-label="Twitter"
+                >
+                  <i className="fab fa-twitter"></i>
+                </a>
+                <a 
+                  href="#" 
+                  className="w-10 h-10 bg-gray-800 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110"
+                  aria-label="YouTube"
+                >
+                  <i className="fab fa-youtube"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -138,6 +164,9 @@ export default function Footer() {
               <a href="#" className="hover:text-white transition-colors duration-300">Privacy Policy</a>
               <span>|</span>
               <a href="#" className="hover:text-white transition-colors duration-300">FAQs</a>
+            </div>
+            <div className="text-gray-500">
+              © {new Date().getFullYear()} GoldenApple. All rights reserved.
             </div>
           </div>
         </div>
@@ -154,4 +183,3 @@ export default function Footer() {
     </footer>
   );
 }
-
