@@ -82,19 +82,23 @@ export default function CategoryNavBar({ activeCategory, onCategoryChange }: Cat
           ref={scrollContainerRef}
           className="flex items-center gap-2 md:gap-4 overflow-x-auto py-4 scrollbar-hide"
         >
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => onCategoryChange(category.id)}
-              className={`whitespace-nowrap px-4 md:px-6 py-2 rounded-lg font-medium text-sm md:text-base transition-all flex-shrink-0 ${
-                activeCategory === category.id
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => {
+                  // Set flag to indicate this is a click, not scroll detection
+                  sessionStorage.setItem('scrollToCategory', 'true');
+                  onCategoryChange(category.id);
+                }}
+                className={`whitespace-nowrap px-4 md:px-6 py-2 rounded-lg font-medium text-sm md:text-base transition-all flex-shrink-0 ${
+                  activeCategory === category.id
+                    ? 'bg-black text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
         </div>
         
         {/* Right Arrow Button */}

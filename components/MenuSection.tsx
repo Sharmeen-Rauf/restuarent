@@ -13,6 +13,7 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
   const { addToCart } = useCart();
   const [showNotification, setShowNotification] = useState<string | null>(null);
   const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleAddToCart = (item: MenuItem) => {
     addToCart(item);
@@ -26,9 +27,12 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
     items: menuData.filter((item) => item.category === category.id),
   }));
 
-  // Scroll to category when active category changes
+  // Scroll to category when active category changes (only if user clicked navbar, not from scroll detection)
   useEffect(() => {
-    if (activeCategory && categoryRefs.current[activeCategory]) {
+    // Use a flag to track if this is from a user click
+    const shouldScroll = sessionStorage.getItem('scrollToCategory') === 'true';
+    
+    if (shouldScroll && activeCategory && categoryRefs.current[activeCategory]) {
       const element = categoryRefs.current[activeCategory];
       if (element) {
         const header = document.querySelector('header');
@@ -41,15 +45,83 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
           top: element.offsetTop - offset,
           behavior: 'smooth',
         });
+        
+        // Clear the flag after scrolling
+        sessionStorage.removeItem('scrollToCategory');
       }
     }
   }, [activeCategory]);
+
+
+  // Handle scroll events to detect which category is in view
+  useEffect(() => {
+    const handleScroll = () => {
+      // Clear any existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      // Debounce scroll detection
+      scrollTimeoutRef.current = setTimeout(() => {
+        const header = document.querySelector('header');
+        const headerHeight = header ? header.offsetHeight : 0;
+        const categoryNav = document.querySelector('[class*="CategoryNavBar"]');
+        const categoryNavHeight = categoryNav ? (categoryNav as HTMLElement).offsetHeight : 0;
+        const scrollOffset = headerHeight + categoryNavHeight + 150; // Offset from top
+
+        let currentCategory: string | null = null;
+        let minDistance = Infinity;
+
+        // Find the category section closest to the top
+        categories.forEach((category) => {
+          const element = categoryRefs.current[category.id];
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const elementTop = rect.top;
+            
+            // Check if category is in the viewport near the top
+            if (elementTop <= scrollOffset && elementTop > scrollOffset - 300) {
+              const distanceFromTop = Math.abs(elementTop - scrollOffset);
+              if (distanceFromTop < minDistance) {
+                minDistance = distanceFromTop;
+                currentCategory = category.id;
+              }
+            }
+          }
+        });
+
+        // Only update if we found a category and it's different
+        if (currentCategory && currentCategory !== activeCategory) {
+          // Only update if this is from scroll, not from clicking navbar
+          if (sessionStorage.getItem('scrollToCategory') !== 'true') {
+            onCategoryChange(currentCategory);
+          }
+        }
+      }, 100); // Debounce 100ms
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [activeCategory, onCategoryChange]);
 
   return (
     <section className="py-10 bg-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {menuByCategory.map(({ category, items }, categoryIndex) => (
-          <div key={category.id} ref={(el) => { categoryRefs.current[category.id] = el; }}>
+          <div 
+            key={category.id} 
+            ref={(el) => { categoryRefs.current[category.id] = el; }}
+            data-category-id={category.id}
+          >
             {/* Category Separator/Header - Only show if not first category */}
             {categoryIndex > 0 && (
               <div className="my-12 md:my-16 relative">
