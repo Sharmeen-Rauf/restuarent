@@ -10,7 +10,7 @@ interface HeaderProps {
 
 export default function Header({ onLocationClick }: HeaderProps) {
   const { getDisplayLocation } = useLocation();
-  const { getCartCount } = useCart();
+  const { getCartCount, setIsCartOpen } = useCart();
   const cartCount = getCartCount();
   const displayLocation = getDisplayLocation();
   const [isHidden, setIsHidden] = useState(false);
@@ -86,6 +86,7 @@ export default function Header({ onLocationClick }: HeaderProps) {
 
             {/* Cart */}
             <button
+              onClick={() => setIsCartOpen(true)}
               className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
             >
               <i className="fas fa-shopping-cart text-base md:text-lg"></i>

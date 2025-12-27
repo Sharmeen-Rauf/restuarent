@@ -8,10 +8,14 @@ import CategoryNavBar from '@/components/CategoryNavBar';
 import SearchSection from '@/components/SearchSection';
 import MenuSection from '@/components/MenuSection';
 import Footer from '@/components/Footer';
+import CartSidebar from '@/components/CartSidebar';
+import ViewCartButton from '@/components/ViewCartButton';
+import { useCart } from '@/lib/context/CartContext';
 
 export default function Home() {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('starters');
+  const { isCartOpen, setIsCartOpen } = useCart();
 
   // Use useCallback to prevent unnecessary re-renders
   const handleCategoryChange = useCallback((category: string) => {
@@ -59,7 +63,16 @@ export default function Home() {
           isOpen={isLocationModalOpen}
           onClose={() => setIsLocationModalOpen(false)}
         />
+
+        {/* Cart Sidebar */}
+        <CartSidebar
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+        />
       </div>
+
+      {/* View Cart Button (floating) */}
+      <ViewCartButton />
     </div>
   );
 }
