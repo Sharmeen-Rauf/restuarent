@@ -29,8 +29,8 @@ export default function MenuSection() {
   };
 
   return (
-    <section className="py-10">
-      <div className="max-w-7xl mx-auto px-5">
+    <section className="py-10 bg-gray-50">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl md:text-5xl mb-8 text-center text-gray-900">Menu</h2>
 
         {/* Category Tabs */}
@@ -39,10 +39,10 @@ export default function MenuSection() {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`px-8 py-3 border-2 rounded-full font-medium transition-all ${
+              className={`px-6 md:px-8 py-2 md:py-3 border-2 rounded-full font-medium transition-all text-sm md:text-base ${
                 activeCategory === category.id
-                  ? 'bg-primary text-white border-primary'
-                  : 'bg-white text-gray-900 border-gray-300 hover:border-primary hover:text-primary'
+                  ? 'bg-[#FF6B00] text-white border-[#FF6B00]'
+                  : 'bg-white text-gray-900 border-gray-300 hover:border-[#FF6B00] hover:text-[#FF6B00]'
               }`}
             >
               {category.name}
@@ -66,13 +66,13 @@ export default function MenuSection() {
                 <h3 className="text-xl font-semibold mb-3 text-gray-900">{item.name}</h3>
                 <p className="text-sm text-gray-600 mb-4 leading-relaxed">{item.description}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-primary">{item.price}</span>
+                  <span className="text-2xl font-bold text-[#FF6B00]">{item.price}</span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleAddToCart(item);
                     }}
-                    className="bg-primary text-white px-5 py-2 rounded-full font-semibold hover:bg-secondary transition-colors"
+                    className="bg-[#FF6B00] text-white px-5 py-2 rounded-full font-semibold hover:bg-[#FF8C42] transition-colors"
                   >
                     Add to Cart
                   </button>
@@ -85,7 +85,7 @@ export default function MenuSection() {
 
       {/* Notification */}
       {showNotification && (
-        <div className="fixed top-24 right-5 bg-primary text-white px-6 py-4 rounded-lg shadow-xl z-50 animate-slide-in">
+        <div className="fixed top-24 right-5 bg-[#FF6B00] text-white px-6 py-4 rounded-lg shadow-xl z-50 animate-slide-in">
           {showNotification}
         </div>
       )}
