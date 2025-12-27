@@ -149,7 +149,8 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100"
+                  className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 card-hover"
+                  style={{ animationDelay: `${(items.indexOf(item) % 8) * 0.05}s` }}
                 >
                   {/* Item Image */}
                   <div className="relative w-full h-48 md:h-56 overflow-hidden">
