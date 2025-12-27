@@ -13,10 +13,10 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <Header onLocationClick={() => setIsLocationModalOpen(true)} />
       
-      {/* Hero Section */}
+      {/* Hero Section with Slider and Search */}
       <HeroSection />
 
-      {/* Menu Section */}
+      {/* Menu Section with Category Nav and Cards */}
       <MenuSection />
 
       {/* Location Modal */}
