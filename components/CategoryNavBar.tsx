@@ -16,10 +16,20 @@ export default function CategoryNavBar({ activeCategory, onCategoryChange }: Cat
 
   useEffect(() => {
     const handleScroll = () => {
-      if (navRef.current) {
-        const navTop = navRef.current.getBoundingClientRect().top;
-        // Become sticky when navbar reaches top of viewport
-        setIsSticky(navTop <= 0);
+      // Find hero section
+      const heroSection = document.querySelector('section[class*="bg-gradient-to-br"]') as HTMLElement;
+      
+      if (heroSection && navRef.current) {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        const header = document.querySelector('header') as HTMLElement;
+        const headerHeight = header ? header.offsetHeight : 0;
+        
+        // Become sticky when hero section is scrolled past (accounting for header height)
+        if (heroBottom <= headerHeight) {
+          setIsSticky(true);
+        } else {
+          setIsSticky(false);
+        }
       }
     };
 
@@ -65,6 +75,7 @@ export default function CategoryNavBar({ activeCategory, onCategoryChange }: Cat
       className={`bg-white shadow-md transition-all duration-300 z-40 border-b border-gray-200 ${
         isSticky ? 'fixed top-0 left-0 right-0' : 'relative'
       }`}
+      style={isSticky ? {} : {}}
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div 

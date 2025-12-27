@@ -2,6 +2,7 @@
 
 import { useLocation } from '@/lib/context/LocationContext';
 import { useCart } from '@/lib/context/CartContext';
+import { useEffect, useState } from 'react';
 
 interface HeaderProps {
   onLocationClick?: () => void;
@@ -12,9 +13,32 @@ export default function Header({ onLocationClick }: HeaderProps) {
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
   const displayLocation = getDisplayLocation();
+  const [isHidden, setIsHidden] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Find hero section
+      const heroSection = document.querySelector('section[class*="bg-gradient-to-br"]') as HTMLElement;
+      
+      if (heroSection) {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        // Hide header when hero section is scrolled past
+        setIsHidden(heroBottom <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial state
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50 border-b border-gray-200">
+    <header 
+      className={`bg-white shadow-md sticky top-0 z-50 border-b border-gray-200 transition-transform duration-300 ${
+        isHidden ? '-translate-y-full' : ''
+      }`}
+    >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4">
         <div className="flex justify-between items-center flex-wrap gap-3 md:gap-4">
           {/* Logo */}
