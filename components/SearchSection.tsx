@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { menuData } from '@/lib/menuData';
 
 const placeholderTexts = [
@@ -16,7 +16,6 @@ export default function SearchSection() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholderTexts[0]);
   const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
-  const sliderRef = useRef<HTMLDivElement>(null);
 
   // Get items for slider (first 8 items)
   const sliderItems = menuData.slice(0, 8);
@@ -34,30 +33,16 @@ export default function SearchSection() {
     return () => clearInterval(interval);
   }, []);
 
-  const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({
-        left: 300,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
     <section className="bg-white py-8">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Menu Items Slider - BEFORE Search Bar */}
-        <div className="mb-8 relative">
-          <div 
-            ref={sliderRef}
-            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
+        {/* Menu Items Static Grid - BEFORE Search Bar (NOT scrollable) */}
+        <div className="mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
             {sliderItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-xl p-3 md:p-4 hover:shadow-lg transition-all cursor-pointer border border-gray-100 flex-shrink-0"
-                style={{ minWidth: '180px', maxWidth: '180px' }}
+                className="bg-white rounded-xl p-3 md:p-4 hover:shadow-lg transition-all cursor-pointer border border-gray-100"
               >
                 <img
                   src={item.image}
@@ -73,14 +58,6 @@ export default function SearchSection() {
               </div>
             ))}
           </div>
-          
-          {/* Right Arrow Button */}
-          <button
-            onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#FF6B00] hover:bg-[#FF8C42] text-white rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shadow-lg z-10 transition-colors"
-          >
-            <i className="fas fa-chevron-right"></i>
-          </button>
         </div>
 
         {/* Search Bar */}
