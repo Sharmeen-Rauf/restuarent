@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "@/lib/context/CartContext";
 import { LocationProvider } from "@/lib/context/LocationContext";
+import AOSInit from "@/components/AOSInit";
 
 export const metadata: Metadata = {
   title: "GoldenApple | Fast, Fresh, and Flavorful!",
@@ -26,6 +27,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <AOSInit />
         <LocationProvider>
           <CartProvider>
             {children}

@@ -33,7 +33,7 @@ export default function SearchSection() {
     <section className="bg-white py-8">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search Bar */}
-        <div className="max-w-2xl mx-auto relative">
+        <div className="max-w-2xl mx-auto relative" data-aos="fade-up" data-aos-delay="100">
           <input
             type="text"
             placeholder={currentPlaceholder}

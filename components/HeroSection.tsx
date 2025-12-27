@@ -21,7 +21,7 @@ export default function HeroSection() {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
           {/* Left Side - Text Content */}
-          <div className="text-white order-2 lg:order-1">
+          <div className="text-white order-2 lg:order-1" data-aos="fade-right" data-aos-delay="100">
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 md:mb-6 leading-tight">
               <span className="block font-serif italic text-red-600 mb-2" style={{ fontFamily: 'serif' }}>
                 Exquisite
@@ -32,7 +32,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right Side - Food Images */}
-          <div className="relative order-1 lg:order-2">
+          <div className="relative order-1 lg:order-2" data-aos="fade-left" data-aos-delay="200">
             <div className="relative">
               {/* Main Food Platter - Kebabs */}
               <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-2xl border border-gray-700/50">
@@ -44,7 +44,7 @@ export default function HeroSection() {
               </div>
 
               {/* Decorative Bread Basket - Top Right */}
-              <div className="absolute -top-6 -right-6 bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-2xl hidden md:block transform rotate-6">
+              <div className="absolute -top-6 -right-6 bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-2xl hidden md:block transform rotate-6" data-aos="zoom-in" data-aos-delay="400">
                 <img
                   src="https://images.unsplash.com/photo-1508615070457-7baeba4003ab?w=200&h=150&fit=crop&q=80"
                   alt="Fresh Bread"
@@ -53,14 +53,14 @@ export default function HeroSection() {
               </div>
 
               {/* Decorative Sauce Bowl - Bottom Left */}
-              <div className="absolute -bottom-4 -left-4 bg-red-600/90 backdrop-blur-sm rounded-full p-3 shadow-2xl hidden lg:block">
+              <div className="absolute -bottom-4 -left-4 bg-red-600/90 backdrop-blur-sm rounded-full p-3 shadow-2xl hidden lg:block" data-aos="zoom-in" data-aos-delay="500">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full flex items-center justify-center">
                   <i className="fas fa-leaf text-white text-xl md:text-2xl"></i>
                 </div>
               </div>
 
               {/* Star Rating Badge */}
-              <div className="absolute top-4 right-4 bg-red-600/95 backdrop-blur-sm rounded-full p-2 md:p-3 shadow-lg">
+              <div className="absolute top-4 right-4 bg-red-600/95 backdrop-blur-sm rounded-full p-2 md:p-3 shadow-lg" data-aos="zoom-in" data-aos-delay="300">
                 <i className="fas fa-star text-white text-lg md:text-xl"></i>
               </div>
             </div>
@@ -69,7 +69,7 @@ export default function HeroSection() {
       </div>
 
       {/* Payment Logos - Bottom Right */}
-      <div className="absolute bottom-4 md:bottom-6 right-4 sm:right-6 lg:right-8 z-10">
+      <div className="absolute bottom-4 md:bottom-6 right-4 sm:right-6 lg:right-8 z-10" data-aos="fade-up" data-aos-delay="600">
         <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md rounded-lg px-4 py-3 shadow-xl border border-gray-200/50">
           {/* VISA Logo */}
           <div className="flex items-center justify-center w-12 h-8 bg-blue-900 rounded px-2">

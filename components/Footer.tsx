@@ -23,7 +23,7 @@ export default function Footer() {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* Logo Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1" data-aos="fade-up" data-aos-delay="100">
             <div className="flex items-center gap-2 mb-6">
               <span className="text-white text-3xl md:text-4xl font-bold">GoldenApple</span>
               <i className="fas fa-apple text-red-600 text-2xl md:text-3xl"></i>
@@ -38,7 +38,7 @@ export default function Footer() {
           </div>
 
           {/* Information Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1" data-aos="fade-up" data-aos-delay="200">
             <h3 className="text-lg font-bold mb-6">Information</h3>
             <ul className="space-y-4">
               <li>
@@ -90,7 +90,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1" data-aos="fade-up" data-aos-delay="300">
             <h3 className="text-lg font-bold mb-6">Quick Links</h3>
             <ul className="space-y-4">
               <li>
@@ -117,7 +117,7 @@ export default function Footer() {
           </div>
 
           {/* Opening Hours Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1" data-aos="fade-up" data-aos-delay="400">
             <h3 className="text-lg font-bold mb-6">Opening Hours</h3>
             <div className="space-y-3 text-gray-400">
               <div className="flex justify-between">
@@ -156,7 +156,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="border-t border-gray-800 pt-8 mt-8">
+        <div className="border-t border-gray-800 pt-8 mt-8" data-aos="fade-up" data-aos-delay="500">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-gray-400 text-sm">
             <div className="flex flex-wrap justify-center gap-4">
               <span>Powered by GoldenApple</span>
@@ -177,6 +177,8 @@ export default function Footer() {
         onClick={scrollToTop}
         className="fixed bottom-8 right-8 bg-red-600 hover:bg-red-700 text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 hover:scale-110 hover:shadow-2xl"
         aria-label="Scroll to top"
+        data-aos="zoom-in"
+        data-aos-delay="600"
       >
         <i className="fas fa-arrow-up text-lg md:text-xl"></i>
       </button>

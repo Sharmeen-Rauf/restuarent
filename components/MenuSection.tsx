@@ -46,6 +46,8 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
     items: menuData.filter((item) => item.category === category.id),
   }));
 
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Scroll to category when active category changes (only if user clicked navbar, not from scroll detection)
   useEffect(() => {
     // Use a flag to track if this is from a user click
@@ -131,8 +133,6 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
     };
   }, [activeCategory, onCategoryChange]);
 
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
   const getItemQuantity = (itemId: number) => {
     const cartItem = cart.find(i => i.id === itemId);
     return cartItem ? cartItem.quantity : 0;
@@ -150,7 +150,7 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
             >
               {/* Category Separator/Header - Only show if not first category */}
               {categoryIndex > 0 && (
-                <div className="my-12 md:my-16 relative">
+                <div className="my-12 md:my-16 relative" data-aos="fade-up" data-aos-delay="100">
                   {/* Decorative separator line */}
                   <div className="flex items-center justify-center">
                     <div className="flex-1 h-px bg-gray-200"></div>
@@ -166,19 +166,25 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
               )}
 
               {/* Category Title */}
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 md:mb-8">
+              <h2 
+                className="text-3xl md:text-4xl font-bold text-black mb-6 md:mb-8"
+                data-aos="fade-right"
+                data-aos-delay="200"
+              >
                 {category.name}
               </h2>
 
               {/* Menu Grid - 8 items per category */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
-                {items.map((item) => {
+                {items.map((item, itemIndex) => {
                   const quantity = getItemQuantity(item.id);
                   return (
                     <div
                       key={item.id}
                       className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 card-hover cursor-pointer"
                       onClick={() => handleItemClick(item)}
+                      data-aos="fade-up"
+                      data-aos-delay={`${itemIndex * 50}`}
                     >
                       {/* Item Image */}
                       <div className="relative w-full h-48 md:h-56 overflow-hidden">
