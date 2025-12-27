@@ -35,7 +35,7 @@ export default function CategoryNavBar({ activeCategory, onCategoryChange }: Cat
       {/* Category Navigation - Will become sticky on scroll */}
       <div
         ref={navRef}
-        className={`bg-white shadow-md transition-all duration-300 z-40 ${
+        className={`bg-white shadow-md transition-all duration-300 z-40 border-b border-gray-200 ${
           isSticky ? 'fixed top-0 left-0 right-0' : 'relative'
         }`}
       >
@@ -47,7 +47,7 @@ export default function CategoryNavBar({ activeCategory, onCategoryChange }: Cat
                 onClick={() => onCategoryChange(category.id)}
                 className={`whitespace-nowrap px-4 md:px-6 py-2 rounded-lg font-medium text-sm md:text-base transition-all flex-shrink-0 ${
                   activeCategory === category.id
-                    ? 'bg-[#FF6B00] text-white'
+                    ? 'bg-black text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >

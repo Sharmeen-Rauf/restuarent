@@ -13,7 +13,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('starters');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Header onLocationClick={() => setIsLocationModalOpen(true)} />
       
       {/* Hero Section - Banner with Exquisite RANGE OF Flavours */}
@@ -25,7 +25,7 @@ export default function Home() {
         onCategoryChange={setActiveCategory} 
       />
 
-      {/* Search Section with Static Menu Items Grid */}
+      {/* Search Section - Just Search Bar (No Cards) */}
       <SearchSection />
 
       {/* Menu Section with Category Cards */}

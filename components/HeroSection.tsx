@@ -9,9 +9,9 @@ export default function HeroSection() {
           className="absolute inset-0" 
           style={{
             backgroundImage: `
-              radial-gradient(circle at 15% 30%, rgba(255, 215, 0, 0.15) 0%, transparent 40%),
-              radial-gradient(circle at 85% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(255, 107, 0, 0.05) 0%, transparent 60%)
+              radial-gradient(circle at 15% 30%, rgba(220, 38, 38, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 85% 70%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.05) 0%, transparent 60%)
             `,
           }}
         ></div>
@@ -23,11 +23,11 @@ export default function HeroSection() {
           {/* Left Side - Text Content */}
           <div className="text-white order-2 lg:order-1">
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 md:mb-6 leading-tight">
-              <span className="block font-serif italic text-[#FF6B00] mb-2" style={{ fontFamily: 'serif' }}>
+              <span className="block font-serif italic text-red-600 mb-2" style={{ fontFamily: 'serif' }}>
                 Exquisite
               </span>
               <span className="block text-white font-sans mt-2">RANGE OF</span>
-              <span className="block text-[#FF6B00] mt-1 font-sans">Flavours</span>
+              <span className="block text-red-600 mt-1 font-sans">Flavours</span>
             </h1>
           </div>
 
@@ -53,15 +53,15 @@ export default function HeroSection() {
               </div>
 
               {/* Decorative Sauce Bowl - Bottom Left */}
-              <div className="absolute -bottom-4 -left-4 bg-[#FF6B00]/90 backdrop-blur-sm rounded-full p-3 shadow-2xl hidden lg:block">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-green-600 rounded-full flex items-center justify-center">
+              <div className="absolute -bottom-4 -left-4 bg-red-600/90 backdrop-blur-sm rounded-full p-3 shadow-2xl hidden lg:block">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full flex items-center justify-center">
                   <i className="fas fa-leaf text-white text-xl md:text-2xl"></i>
                 </div>
               </div>
 
               {/* Star Rating Badge */}
-              <div className="absolute top-4 right-4 bg-yellow-400/95 backdrop-blur-sm rounded-full p-2 md:p-3 shadow-lg">
-                <i className="fas fa-star text-yellow-900 text-lg md:text-xl"></i>
+              <div className="absolute top-4 right-4 bg-red-600/95 backdrop-blur-sm rounded-full p-2 md:p-3 shadow-lg">
+                <i className="fas fa-star text-white text-lg md:text-xl"></i>
               </div>
             </div>
           </div>

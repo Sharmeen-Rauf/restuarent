@@ -601,8 +601,8 @@ export const categories = [
   { id: 'soups', name: 'Soups' },
   { id: 'burgers', name: 'Burgers' },
   { id: 'sandwiches', name: 'Sandwiches' },
-  { id: 'steaks-beef', name: 'Steaks by Kababjees (Beef)' },
-  { id: 'steaks-chicken', name: 'Steaks by Kababjees (Chicken)' },
+  { id: 'steaks-beef', name: 'Steaks by GoldenApple (Beef)' },
+  { id: 'steaks-chicken', name: 'Steaks by GoldenApple (Chicken)' },
   { id: 'chinese', name: 'Chinese' },
   { id: 'arabic-rice', name: 'Arabic Rice' },
 ];

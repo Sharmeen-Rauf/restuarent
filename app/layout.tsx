@@ -4,8 +4,8 @@ import { CartProvider } from "@/lib/context/CartContext";
 import { LocationProvider } from "@/lib/context/LocationContext";
 
 export const metadata: Metadata = {
-  title: "Kababjees Fried Chicken | Fast, Fresh, and Flavorful!",
-  description: "Order delicious fried chicken online from Kababjees",
+  title: "GoldenApple | Fast, Fresh, and Flavorful!",
+  description: "Order delicious food online from GoldenApple",
 };
 
 export default function RootLayout({

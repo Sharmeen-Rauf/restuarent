@@ -43,15 +43,18 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
 
   // Reset area when city changes
   useEffect(() => {
-    if (selectedCity && selectedCity !== city) {
+    if (selectedCity) {
       const areas = getCityAreas(selectedCity);
       if (areas.length > 0) {
-        setSelectedArea(areas[0].name);
+        // If no area is selected or area is not in the new city, select first area
+        if (!selectedArea || !areas.find(a => a.name === selectedArea)) {
+          setSelectedArea(areas[0].name);
+        }
       } else {
         setSelectedArea('');
       }
     }
-  }, [selectedCity, city]);
+  }, [selectedCity]);
 
   if (!isOpen) return null;
 
@@ -102,7 +105,7 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
       >
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Select your order type</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-5">Select your order type</h2>
         </div>
 
         {/* Order Type Selection */}
@@ -111,8 +114,8 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
             onClick={() => setOrderType('delivery')}
             className={`flex-1 py-4 rounded-lg border-2 font-semibold text-base md:text-lg transition-all ${
               orderType === 'delivery'
-                ? 'bg-[#FF6B00] text-white border-[#FF6B00]'
-                : 'bg-white text-gray-900 border-gray-300 hover:border-[#FF6B00] hover:text-[#FF6B00]'
+                ? 'bg-black text-white border-black'
+                : 'bg-white text-black border-gray-300 hover:border-black hover:text-black'
             }`}
           >
             DELIVERY
@@ -121,8 +124,8 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
             onClick={() => setOrderType('pickup')}
             className={`flex-1 py-4 rounded-lg border-2 font-semibold text-base md:text-lg transition-all ${
               orderType === 'pickup'
-                ? 'bg-[#FF6B00] text-white border-[#FF6B00]'
-                : 'bg-white text-gray-900 border-gray-300 hover:border-[#FF6B00] hover:text-[#FF6B00]'
+                ? 'bg-black text-white border-black'
+                : 'bg-white text-black border-gray-300 hover:border-black hover:text-black'
             }`}
           >
             PICK-UP
@@ -130,13 +133,13 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
         </div>
 
         <div className="mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Please select your location</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-5">Please select your location</h2>
         </div>
 
         {/* Use Current Location Button */}
         <button
           onClick={handleUseCurrentLocation}
-          className="w-full py-4 border-2 border-dashed border-gray-300 bg-gray-50 rounded-lg flex items-center justify-center gap-3 font-medium text-gray-900 hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:bg-opacity-10 hover:text-[#FF6B00] transition-all mb-8"
+          className="w-full py-4 border-2 border-dashed border-gray-300 bg-gray-50 rounded-lg flex items-center justify-center gap-3 font-medium text-black hover:border-black hover:bg-gray-100 transition-all mb-8"
         >
           <i className="fas fa-crosshairs text-lg"></i>
           <span>Use Current Location</span>
@@ -159,16 +162,16 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
               }}
               className={`flex flex-col items-center gap-2 md:gap-3 p-3 md:p-4 border-2 rounded-lg transition-all ${
                 selectedCity === cityItem.id
-                  ? 'border-[#FF6B00] bg-[#FF6B00] bg-opacity-10'
-                  : 'border-gray-300 bg-white hover:border-[#FF6B00] hover:shadow-md hover:-translate-y-1'
+                  ? 'border-black bg-black bg-opacity-5'
+                  : 'border-gray-300 bg-white hover:border-black hover:shadow-md hover:-translate-y-1'
               }`}
             >
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#FF6B00] bg-opacity-20 flex items-center justify-center">
-                <span className="text-[#FF6B00] font-bold text-lg md:text-xl">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-100 flex items-center justify-center">
+                <span className="text-black font-bold text-lg md:text-xl">
                   {cityItem.name.substring(0, 2).toUpperCase()}
                 </span>
               </div>
-              <span className="font-semibold text-gray-900 text-sm md:text-base text-center">
+              <span className="font-semibold text-black text-sm md:text-base text-center">
                 {cityItem.name}
               </span>
             </button>
@@ -185,7 +188,7 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
               <select
                 value={selectedArea}
                 onChange={(e) => setSelectedArea(e.target.value)}
-                className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-[#FF6B00] transition-colors appearance-none bg-white cursor-pointer"
+                className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-black transition-colors appearance-none bg-white cursor-pointer"
               >
                 <option value="">Select an area</option>
                 {cityAreas.map((areaItem) => (
@@ -206,7 +209,7 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
             placeholder="Search city or area"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-[#FF6B00] transition-colors"
+            className="w-full py-4 px-5 pr-12 border-2 border-gray-300 rounded-lg text-base outline-none focus:border-black transition-colors"
           />
           <i className="fas fa-search absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
         </div>
@@ -218,7 +221,7 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
             disabled={!canSelect}
             className={`px-8 md:px-10 py-4 rounded-full font-semibold text-base md:text-lg transition-colors ${
               canSelect
-                ? 'bg-[#FF6B00] text-white hover:bg-[#FF8C42]'
+                ? 'bg-black text-white hover:bg-gray-800'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
             }`}
           >

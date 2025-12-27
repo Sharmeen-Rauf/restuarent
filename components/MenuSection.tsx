@@ -22,14 +22,14 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
   };
 
   return (
-    <section className="py-10 bg-gray-50">
+    <section className="py-10 bg-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Menu Grid - Cards like screenshot (8 items per category) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
           {filteredMenu.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all"
+              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100"
             >
               {/* Item Image */}
               <div className="relative w-full h-48 md:h-56 overflow-hidden">
@@ -42,14 +42,14 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
 
               {/* Item Content */}
               <div className="p-4 md:p-5">
-                <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 line-clamp-2">
+                <h3 className="text-lg md:text-xl font-semibold mb-2 text-black line-clamp-2">
                   {item.name}
                 </h3>
                 <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
                   {item.description}
                 </p>
                 <div className="flex justify-between items-center">
-                  <span className="text-xl md:text-2xl font-bold text-[#FF6B00]">
+                  <span className="text-xl md:text-2xl font-bold text-red-600">
                     {item.price}
                   </span>
                   <button
@@ -57,7 +57,7 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
                       e.stopPropagation();
                       handleAddToCart(item);
                     }}
-                    className="bg-[#FF6B00] text-white px-6 md:px-8 py-2 md:py-2.5 rounded-lg font-semibold hover:bg-[#FF8C42] transition-colors text-sm md:text-base"
+                    className="bg-black text-white px-6 md:px-8 py-2 md:py-2.5 rounded-lg font-semibold hover:bg-gray-800 transition-colors text-sm md:text-base"
                   >
                     ADD
                   </button>
@@ -77,7 +77,7 @@ export default function MenuSection({ activeCategory, onCategoryChange }: MenuSe
 
       {/* Notification */}
       {showNotification && (
-        <div className="fixed top-24 right-5 bg-[#FF6B00] text-white px-6 py-4 rounded-lg shadow-xl z-50 animate-slide-in">
+        <div className="fixed top-24 right-5 bg-black text-white px-6 py-4 rounded-lg shadow-xl z-50 animate-slide-in">
           {showNotification}
         </div>
       )}

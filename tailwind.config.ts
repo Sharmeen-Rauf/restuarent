@@ -9,12 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#FF6B00",
-        secondary: "#FF8C42",
+        primary: "#000000",
+        accent: "#DC2626",
       },
     },
   },
   plugins: [],
 };
 export default config;
-
