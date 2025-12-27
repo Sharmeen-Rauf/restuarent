@@ -10,14 +10,18 @@ interface CategoryNavBarProps {
 
 export default function CategoryNavBar({ activeCategory, onCategoryChange }: CategoryNavBarProps) {
   const navRef = useRef<HTMLDivElement>(null);
-  const spacerRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement | null>(null);
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
+    // Find hero section element
+    heroSectionRef.current = document.querySelector('section[class*="bg-gradient-to-br"]') as HTMLDivElement;
+
     const handleScroll = () => {
-      if (spacerRef.current && navRef.current) {
-        const spacerTop = spacerRef.current.getBoundingClientRect().top;
-        setIsSticky(spacerTop <= 0);
+      if (heroSectionRef.current) {
+        const heroBottom = heroSectionRef.current.getBoundingClientRect().bottom;
+        // Sticky when hero section is scrolled past
+        setIsSticky(heroBottom <= 0);
       }
     };
 
@@ -28,10 +32,7 @@ export default function CategoryNavBar({ activeCategory, onCategoryChange }: Cat
 
   return (
     <>
-      {/* Spacer to prevent jump when sticky */}
-      <div ref={spacerRef} className="h-16"></div>
-      
-      {/* Category Navigation */}
+      {/* Category Navigation - Will become sticky on scroll */}
       <div
         ref={navRef}
         className={`bg-white shadow-md transition-all duration-300 z-40 ${
